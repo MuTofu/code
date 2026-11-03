@@ -15,5 +15,5 @@ interface PelangganRepositoryInterface {
 
     public function update(Pelanggan $pelanggan) : void;
 
-    public function updateStatus(Pelanggan $pelanggan) : void;
+    public function delete(int $id) : void;
 }

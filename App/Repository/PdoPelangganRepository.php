@@ -7,7 +7,7 @@ use App\Exception\BusinessRuleException;
 use Override;
 use PDOException;
 
-class PdoPesananRepository extends AbstractPdsoRepository implements PelangganRepositoryInterface {
+class PdoPelangganRepository extends AbstractPdsoRepository implements PelangganRepositoryInterface {
 
     private  function toEntity(array $row) : Pelanggan {
         return new Pelanggan(
@@ -68,8 +68,24 @@ class PdoPesananRepository extends AbstractPdsoRepository implements PelangganRe
     #[Override]
     public function update(Pelanggan $pelanggan): void
     {
-        
+        $this->duplicateCheck( fn () => $this->excecute(
+            'UPDATE pelanggan SET nama = :nama, no_telp = :no_telp, alamat = :alamat WHERE id_pelanggan = :id',
+            [
+                'nama' => $pelanggan->getNama(),
+                'no_telp' => $pelanggan->getNoTelp(),
+                'alamat' => $pelanggan->getAlamat(),
+                'id' => $pelanggan->getIdPelanggan(),
+            ]
+        ));
     }
+
+    #[Override]
+    public function delete(int $id): void
+    {
+        $this->excecute('DELETE FROM pelanggan WHERE id_pelanggan = :id', ['id' => $id]);
+    }
+
+
 
 
 }

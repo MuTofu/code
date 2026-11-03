@@ -5,7 +5,7 @@ namespace App\Repository;
 use App\Infrastructure\Database;
 use App\Service\TransactionManager;
 
-abstract class AbstractPdsoRepository implements TransactionManager {
+abstract class AbstractPdsoRepository {
     public function __construct(
         protected Database $db
     )
