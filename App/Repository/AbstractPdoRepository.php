@@ -3,9 +3,8 @@
 namespace App\Repository;
 
 use App\Infrastructure\Database;
-use App\Service\TransactionManager;
 
-abstract class AbstractPdsoRepository {
+abstract class AbstractPdoRepository {
     public function __construct(
         protected Database $db
     )
@@ -49,7 +48,7 @@ abstract class AbstractPdsoRepository {
      * @param array $params
      * @return integer
      */
-    protected function excecute(string $sql, array $params = []) : int {
+    protected function execute(string $sql, array $params = []) : int {
         $stmt = $this->db->pdo()->prepare($sql);
         $stmt->execute($params);
         return $stmt->rowCount();

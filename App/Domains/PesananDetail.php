@@ -4,8 +4,8 @@ namespace App\Domains;
 
 use App\Enums\SatuanLayanan;
 use App\Domains\Layanan;
-use App\Exception\BusinessRuleException;
-use App\Exception\ValidationException;
+use App\Exceptions\BusinessRuleException;
+use App\Exceptions\ValidationException;
 
 class PesananDetail {
     private ?int $idPesananLayanan;

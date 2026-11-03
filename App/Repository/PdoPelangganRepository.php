@@ -3,16 +3,16 @@
 namespace App\Repository;
 
 use App\Domains\Pelanggan;
-use App\Exception\BusinessRuleException;
+use App\Exceptions\BusinessRuleException;
 use Override;
 use PDOException;
 
-class PdoPelangganRepository extends AbstractPdsoRepository implements PelangganRepositoryInterface {
+class PdoPelangganRepository extends AbstractPdoRepository implements PelangganRepositoryInterface {
 
     private  function toEntity(array $row) : Pelanggan {
         return new Pelanggan(
             nama: $row['nama'],
-            noTelp: $row['noTelp'],
+            noTelp: $row['no_telp'],
             alamat: $row['alamat'],
             idPelanggan: (int) $row['id_pelanggan']
         );
@@ -22,7 +22,7 @@ class PdoPelangganRepository extends AbstractPdsoRepository implements Pelanggan
         try {
             $query();
         } catch (PDOException $e) {
-            if ($e->getCode() === 23000) {
+            if ($e->getCode() === '23000') {
                 throw new BusinessRuleException("Nomor HP sudah ada !");
             }
             throw $e;
@@ -39,22 +39,28 @@ class PdoPelangganRepository extends AbstractPdsoRepository implements Pelanggan
     #[Override]
     public function findByNoTelp(string $noTelp): ?Pelanggan
     {
-        $row = $this->fetchOne('SELECT * FROM pelanggan WHERE noTelp = : noTElp', ['noTelp' => $noTelp]);
+        $row = $this->fetchOne('SELECT * FROM pelanggan WHERE no_telp = :noTelp', ['noTelp' => $noTelp]);
         return $row === null ? null : $this->toEntity($row);
     }
 
     #[Override]
     public function search(?string $keyword): array
     {
-        $keyword = strtolower($keyword);
-        $row = $this->fetchAll('SELECT * FROM pelanggan WHERE nama = : nama', ['nama' => $keyword]);
-        return array_map( fn(array $row) => $this->toEntity($row), $row);
+        if ($keyword === null || trim($keyword) === '') {
+            $rows = $this->fetchAll('SELECT * FROM pelanggan');
+        } else {
+            $rows = $this->fetchAll(
+                'SELECT * FROM pelanggan WHERE LOWER(nama) LIKE :keyword',
+                ['keyword' => '%' . strtolower(trim($keyword)) . '%']
+            );
+        }
+        return array_map( fn(array $row) => $this->toEntity($row), $rows);
     }
 
     #[Override]
     public function save(Pelanggan $pelanggan): Pelanggan
     {
-        $this->duplicateCheck( fn () => $this->excecute(
+        $this->duplicateCheck( fn () => $this->execute(
             'INSERT INTO pelanggan (nama, no_telp, alamat) VALUES (:nama, :no_telp, :alamat)',
             [
                 'nama' => $pelanggan->getNama(),
@@ -68,7 +74,7 @@ class PdoPelangganRepository extends AbstractPdsoRepository implements Pelanggan
     #[Override]
     public function update(Pelanggan $pelanggan): void
     {
-        $this->duplicateCheck( fn () => $this->excecute(
+        $this->duplicateCheck( fn () => $this->execute(
             'UPDATE pelanggan SET nama = :nama, no_telp = :no_telp, alamat = :alamat WHERE id_pelanggan = :id',
             [
                 'nama' => $pelanggan->getNama(),
@@ -82,7 +88,7 @@ class PdoPelangganRepository extends AbstractPdsoRepository implements Pelanggan
     #[Override]
     public function delete(int $id): void
     {
-        $this->excecute('DELETE FROM pelanggan WHERE id_pelanggan = :id', ['id' => $id]);
+        $this->execute('DELETE FROM pelanggan WHERE id_pelanggan = :id', ['id' => $id]);
     }
 
 

@@ -5,8 +5,8 @@ namespace App\Domains;
 
 use App\Enums\StatusPesanan;
 use App\Enums\TipePesanan;
-use App\Exception\BusinessRuleException;
-use App\Exception\ValidationException;
+use App\Exceptions\BusinessRuleException;
+use App\Exceptions\ValidationException;
 use DateTimeImmutable;
 
 class Pesanan {

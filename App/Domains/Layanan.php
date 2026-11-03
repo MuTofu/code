@@ -8,7 +8,7 @@ namespace App\Domains;
 
 use App\Enums\SatuanLayanan;
 use App\Enums\StatusLayanan;
-use App\Exception\ValidationException;
+use App\Exceptions\ValidationException;
 
 class Layanan {
     private ?int $idLayanan;
@@ -23,6 +23,12 @@ class Layanan {
         $this->satuan = $satuan;
         $this->setHargaSatuan($hargaSatuan);
         $this->status = $status;
+    }
+
+    public function withId(int $id): self {
+        $salinan = clone $this;
+        $salinan->idLayanan = $id;
+        return $salinan;
     }
 
     /**
@@ -120,6 +126,14 @@ class Layanan {
 
     public function nonaktifkan() : void {
         $this->status = StatusLayanan::NONAKTIF;
+    }
+
+    /**
+     * Get the value of status
+     */ 
+    public function getStatus()
+    {
+        return $this->status;
     }
 }
 

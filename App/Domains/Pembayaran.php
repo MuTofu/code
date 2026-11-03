@@ -3,7 +3,7 @@
 namespace App\Domains;
 
 use App\Enums\MetodePembayaran;
-use App\Exception\ValidationException;
+use App\Exceptions\ValidationException;
 use DateTimeImmutable;
 
 class Pembayaran {

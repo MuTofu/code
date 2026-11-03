@@ -2,7 +2,7 @@
 
 namespace App\Domains;
 
-use App\Exception\ValidationException;
+use App\Exceptions\ValidationException;
 
 class Pelanggan {
     private ?int $idPelanggan;

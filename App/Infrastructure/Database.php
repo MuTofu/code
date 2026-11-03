@@ -2,10 +2,11 @@
 
 namespace App\Infrastructure;
 
+use App\Service\TransactionManager;
 use PDO;
 use Throwable;
 
-final class Database {
+final class Database implements TransactionManager {
     private PDO $pdo;
 
     public function __construct(
@@ -21,7 +22,7 @@ final class Database {
     }
 
     public function pdo() : PDO {
-        return $this->pdo();
+        return $this->pdo;
     }
 
     public function transaction(callable $callback) : mixed {
