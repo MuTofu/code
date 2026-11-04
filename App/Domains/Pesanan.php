@@ -67,15 +67,77 @@ class Pesanan {
 
     }
 
-
-
-
-
-
-
-
     
 
+        /**
+         * Get the value of kodeNota
+         */ 
+        public function getKodeNota()
+        {
+                return $this->kodeNota;
+        }
 
-    
+        /**
+         * Get the value of idPelanggan
+         */ 
+        public function getIdPelanggan()
+        {
+                return $this->idPelanggan;
+        }
+
+        /**
+         * Get the value of tipe
+         */ 
+        public function getTipe()
+        {
+                return $this->tipe;
+        }
+
+        /**
+         * Get the value of status
+         */ 
+        public function getStatus()
+        {
+                return $this->status;
+        }
+
+        /**
+         * Get the value of totalTagihan
+         */ 
+        public function getTotalTagihan()
+        {
+                return $this->totalTagihan;
+        }
+
+        /**
+         * Get the value of tanggalMasuk
+         */ 
+        public function getTanggalMasuk()
+        {
+                return $this->tanggalMasuk;
+        }
+
+        /**
+         * Get the value of estimasi
+         */ 
+        public function getEstimasi()
+        {
+                return $this->estimasi;
+        }
+
+        /**
+         * Get the value of tanggalDiambil
+         */ 
+        public function getTanggalDiambil()
+        {
+                return $this->tanggalDiambil;
+        }
+
+        /**
+         * Get the value of items
+         */ 
+        public function getItems()
+        {
+                return $this->items;
+        }
 }
